@@ -7,15 +7,57 @@
 
 import SwiftUI
 
+struct Reminder {
+    let id = UUID()
+    let title: String
+    let detail: String
+}
+
 struct ContentView: View {
+    @State var reminders: [Reminder] = [
+        Reminder(title: "Time to Defrost", detail: "4:00 PM, 2 days before meal"),
+        Reminder(title: "Time to Marinate", detail: "5:00 PM, 1 day before meal"),
+        Reminder(title: "Time to Cook", detail: "5:00 PM, day of meal"),
+    ]
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundColor(.accentColor)
-            Text("Hello, world!")
+        Form {
+            Section("Any top/bottom padding in blue content") {
+                ForEach(reminders, id: \.id) { reminder in
+                    ReminderDisplayCell(title: reminder.title, detail: reminder.detail)
+                        .padding([.top, .bottom], 1)
+                }
+                .background(Color.blue)
+                .listRowBackground(Color.red)
+                .listRowSeparatorTint(.white)
+            }
+            
+            Section("no padding in blue content") {
+                ForEach(reminders, id: \.title) { reminder in
+                    ReminderDisplayCell(title: reminder.title, detail: reminder.detail)
+                }
+                .background(Color.blue)
+                .listRowBackground(Color.red)
+                .listRowSeparatorTint(.white)
+            }
         }
-        .padding()
+    }
+}
+
+struct ReminderDisplayCell: View {
+    let title: String
+    let detail: String
+    
+    init(title: String, detail: String) {
+        self.title = title
+        self.detail = detail
+    }
+    
+    var body: some View {
+        VStack(alignment: .leading) {
+            Text(title)
+            Text(detail)
+                .font(.system(.caption))
+        }
     }
 }
 

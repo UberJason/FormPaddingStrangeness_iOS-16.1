@@ -20,7 +20,7 @@ struct ContentView: View {
         Reminder(title: "Time to Cook", detail: "5:00 PM, day of meal"),
     ]
     var body: some View {
-        Form {
+        List {
             Section("Any top/bottom padding in blue content") {
                 ForEach(reminders, id: \.id) { reminder in
                     ReminderDisplayCell(title: reminder.title, detail: reminder.detail)
